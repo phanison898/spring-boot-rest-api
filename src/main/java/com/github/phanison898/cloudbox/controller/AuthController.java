@@ -1,5 +1,7 @@
 package com.github.phanison898.cloudbox.controller;
 
+import com.github.phanison898.cloudbox.dto.login.LoginRequest;
+import com.github.phanison898.cloudbox.dto.login.LoginResponse;
 import com.github.phanison898.cloudbox.dto.signup.SignupRequest;
 import com.github.phanison898.cloudbox.dto.signup.SignupResponse;
 import com.github.phanison898.cloudbox.service.AuthService;
@@ -25,5 +27,11 @@ public class AuthController {
 
         return ResponseEntity.status(response.isSuccess() ? HttpStatus.CREATED : HttpStatus.CONFLICT)
                 .body(response);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
+        LoginResponse response = authService.loginUser(loginRequest);
+        return ResponseEntity.status(response.getToken() != null ? 200 : 401).body(response);
     }
 }
