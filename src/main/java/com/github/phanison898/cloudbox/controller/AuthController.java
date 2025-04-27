@@ -21,14 +21,9 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<SignupResponse> registerUser(@Valid @RequestBody SignupRequest signupRequest) {
-        boolean success = authService.registerUser(signupRequest);
+        SignupResponse response = authService.registerUser(signupRequest);
 
-        if (success) {
-            return ResponseEntity.status(HttpStatus.CREATED)
-                    .body(new SignupResponse("Signup successful!", true));
-        } else {
-            return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body(new SignupResponse("Username already exists.", false));
-        }
+        return ResponseEntity.status(response.isSuccess() ? HttpStatus.CREATED : HttpStatus.CONFLICT)
+                .body(response);
     }
 }
