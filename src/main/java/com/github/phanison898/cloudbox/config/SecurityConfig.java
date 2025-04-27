@@ -27,7 +27,7 @@ public class SecurityConfig {
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
-                .authorizeHttpRequests((requests) -> requests
+                .authorizeHttpRequests(requests -> requests
                         .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/auth/signup").permitAll()
                         .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/auth/login").permitAll()
                         .requestMatchers("/api/dashboard").authenticated()
@@ -60,7 +60,7 @@ public class SecurityConfig {
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring()
+        return web -> web.ignoring()
                 .requestMatchers("/api/auth/signup", "/swagger-ui/**", "/v3/api-docs/**");
     }
 }
